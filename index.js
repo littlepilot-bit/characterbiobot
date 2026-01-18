@@ -150,10 +150,52 @@ client.on("interactionCreate", async i => {
       const c = chars[u].find(x => x.name?.toLowerCase() === name);
       if (!c) continue;
 
-      const e = new EmbedBuilder()
-        .setTitle(c.name)
-        .setDescription(c.bio)
-        .setImage(c.avatar || null);
+      const embed = new EmbedBuilder()
+  .setTitle(`🎭 ${char.name}`)
+  .setThumbnail(char.avatar || null)
+  .setColor(0x9b59b6);
+
+if (char.fc) {
+  embed.setDescription(`*Face Claim:* **${char.fc}**`);
+}
+
+const basics = [];
+if (char.age) basics.push(`**Age:** ${char.age}`);
+if (char.orientation) basics.push(`**Orientation:** ${char.orientation}`);
+if (char.birthday) basics.push(`**Birthday:** ${char.birthday}`);
+
+if (basics.length)
+  embed.addFields({ name: "🧬 Basics", value: basics.join("\n"), inline: false });
+
+const work = [];
+if (char.job) work.push(`**Job:** ${char.job}`);
+if (char.major) work.push(`**Major:** ${char.major}`);
+if (char.clubs) work.push(`**Clubs:** ${char.clubs}`);
+
+if (work.length)
+  embed.addFields({ name: "💼 Occupation", value: work.join("\n"), inline: false });
+
+if (char.housing) {
+  embed.addFields({
+    name: "🏠 Housing",
+    value: char.district
+      ? `${char.housing}\n*${char.district}*`
+      : char.housing,
+    inline: false
+  });
+}
+
+if (char.bio)
+  embed.addFields({ name: "📖 Bio", value: char.bio });
+
+if (char.backstory)
+  embed.addFields({ name: "🕯️ Backstory", value: char.backstory });
+
+if (char.tupper)
+  embed.addFields({
+    name: "🎭 Tupper Prefix",
+    value: `\`${char.tupper}\``
+  });
 
       const f = [
         ["FC", c.fc],
